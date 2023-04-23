@@ -1,12 +1,12 @@
-package com.example.restaurant_manager;
+package com.restaurant_manager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestaurantManagerApplication {
+public class Main {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestaurantManagerApplication.class, args);
+		SpringApplication.run(Main.class, args);
 	}
 }
