@@ -1,5 +1,6 @@
-package com.restaurant_manager.product;
+package com.restaurant_manager.repository;
 
+import com.restaurant_manager.entity.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,47 +1,51 @@
-package com.restaurant_manager.product;
+package com.restaurant_manager.entity.product;
 
-import com.restaurant_manager.category.Category;
-import com.restaurant_manager.ingredient.Ingredient;
+import com.restaurant_manager.entity.category.Category;
+import com.restaurant_manager.entity.ingredient.Ingredient;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
-    //private Category category;
     private Double price;
-    private Boolean units;
     private Double grams;
-    //private List<Ingredient> ingredients;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="category_id")
+    private Category category;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "products_ingredients",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "id"))
+    private Collection<Ingredient> ingredients;
+
 
     public Product() {
     }
 
-    public Product(Integer id, String name, String description, Double price, Boolean units, Double grams) {
+    public Product(Integer id, String name, String description, Double price, Double grams, Category category, Collection<Ingredient> ingredients) {
         this.id = id;
         this.name = name;
         this.description = description;
-        //this.category = category;
         this.price = price;
-        this.units = units;
         this.grams = grams;
-        //this.ingredients = ingredients;
+        this.category = category;
+        this.ingredients = ingredients;
     }
 
-    public Product(String name, String description, Double price, Boolean units, Double grams) {
+    public Product(String name, String description, Double price, Double grams, Category category, Collection<Ingredient> ingredients) {
         this.name = name;
         this.description = description;
-        //this.category = category;
         this.price = price;
-        this.units = units;
         this.grams = grams;
-        //this.ingredients = ingredients;
+        this.category = category;
+        this.ingredients = ingredients;
     }
 
     public Integer getId() {
@@ -76,14 +80,6 @@ public class Product {
         this.price = price;
     }
 
-    public Boolean getUnits() {
-        return units;
-    }
-
-    public void setUnits(Boolean units) {
-        this.units = units;
-    }
-
     public Double getGrams() {
         return grams;
     }
@@ -92,21 +88,21 @@ public class Product {
         this.grams = grams;
     }
 
-//    public List<Ingredient> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    public void setIngredients(List<Ingredient> ingredients) {
-//        this.ingredients = ingredients;
-//    }
+    public Collection<Ingredient> getIngredients() {
+        return ingredients;
+    }
 
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
+    public void setIngredients(Collection<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     @Override
     public String toString() {
@@ -114,11 +110,10 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                //", category='" + category + '\'' +
                 ", price=" + price +
-                ", units=" + units +
                 ", grams=" + grams +
-                //", ingredients=" + ingredients +
+                ", category=" + category +
+                ", ingredients=" + ingredients +
                 '}';
     }
 }

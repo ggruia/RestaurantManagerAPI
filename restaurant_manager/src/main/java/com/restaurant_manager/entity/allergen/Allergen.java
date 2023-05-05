@@ -1,18 +1,29 @@
-package com.restaurant_manager.category;
+package com.restaurant_manager.entity.allergen;
 
-public class Category {
+import com.restaurant_manager.entity.ingredient.Ingredient;
+import jakarta.persistence.*;
+
+import java.util.Collection;
+
+@Entity
+@Table(name = "allergens")
+public class Allergen {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @ManyToMany(mappedBy = "allergens")
+    private Collection<Ingredient> ingredients;
 
-    public Category() {
+    public Allergen() {
     }
 
-    public Category(Integer id, String name) {
+    public Allergen(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Category(String name) {
+    public Allergen(String name) {
         this.name = name;
     }
 
@@ -34,7 +45,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "Allergen{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
