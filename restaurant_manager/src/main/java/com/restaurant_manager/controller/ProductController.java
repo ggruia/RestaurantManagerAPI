@@ -1,11 +1,10 @@
 package com.restaurant_manager.controller;
 
-import com.restaurant_manager.entity.product.Product;
+import com.restaurant_manager.entity.product.ProductGetDto;
+import com.restaurant_manager.entity.product.ProductPostDto;
 import com.restaurant_manager.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -16,8 +15,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping()
-    public Collection<Product> getProducts() {
+    @GetMapping
+    public Collection<ProductGetDto> getProducts() {
         return productService.getProducts();
+    }
+
+    @PostMapping
+    public ProductGetDto addProduct(@RequestBody ProductPostDto productDto) {
+        return productService.createProduct(productDto);
     }
 }
